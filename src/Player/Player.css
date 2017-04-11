@@ -1,0 +1,66 @@
+.Player {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Player div:first-child {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.Player-cards {
+  border: 10px solid rgba(240, 186, 0, 0.5);
+  height: 150px;
+  width: 105px;
+}
+
+.Player-controls {
+  color: #A82C14;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px 10px 0 0;
+  padding: 1em 2em;
+  font-family: 'Economica', sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+}
+
+.Player-controls.disabled {
+  height: 0;
+  padding: 0;
+}
+
+.Player-controls p {
+  margin: 0.25em;
+  font-size: 1.25em;
+}
+
+.Player-controls button {
+  background-color: inherit;
+  border: 1px solid #011C47;
+  border-radius: 2px;
+  color: #011C47;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: 'Economica', sans-serif;
+  margin: 0.25em;
+  text-transform: uppercase;
+}
+
+.Player-controls button:hover {
+  background-color: #ccc;
+}
+
+.Player-controls button:disabled {
+  background-color: #ddd;
+  border: 1px solid #777;
+  color: #777;
+  cursor: default;
+}

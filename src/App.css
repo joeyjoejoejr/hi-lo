@@ -1,7 +1,59 @@
 .App {
-  background-color: #076324;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.App-dealer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.App-deck {
+  position: relative;
+  left: -34px;
+  margin-bottom: 97px;
+}
+
+.App-discard {
+  position: absolute;
+  right: 25%;
+  top: 0;
+}
+
+.App-playerpile {
+  position: relative;
+  top: -40px;
+  left: 5px;
+}
+
+.App-player {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.App-playerbar {
+  border: 10px solid rgba(240, 186, 0, 0.5);
+  display: flex;
+  margin: 3em 3em 0;
+}
+
+.App-playerbar > * {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.App-playerbar .active {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.App-playercontrols {
+  display: flex;
+  flex: 1;
 }

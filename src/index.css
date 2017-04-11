@@ -2,4 +2,22 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: #076324;
+}
+
+h1, h2 {
+  font-family: 'Abril Fatface';
+}
+
+h1 {
+  font-size: 3.8em;
+  letter-spacing: 0.1em;
+}
+
+h2 {
+  font-size: 3.0em;
+  letter-spacing: 0.1em;
+  margin: 0;
+  text-transform: uppercase;
 }
