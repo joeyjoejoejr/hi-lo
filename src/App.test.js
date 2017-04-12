@@ -21,7 +21,12 @@ describe("App", () => {
 
     api.createDeck = jest.fn();
     api.getCard = jest.fn();
-    api.getCard.mockReturnValue({ then: cb => cb(cardData) });
+    api.getCard.mockReturnValue({
+      then: cb => {
+        cb(cardData)
+        return { then: cb=> cb() };
+      }
+    });
     app = renderIntoDocument(<App />);
   });
 

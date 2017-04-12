@@ -19,7 +19,8 @@ class App extends Component {
       deckCards: cards,
       discardCards: [],
       playerCards: [],
-      gameState: gameState.stateString,
+      gameState: gameState,
+      players: gameState.players.map(() => ({ points: 0 })),
     }
     this._clearState = this.state;
 
@@ -27,6 +28,9 @@ class App extends Component {
     this.updateDiscardCards = this.updateDiscardCards.bind(this);
     this.updatePlayerCards = this.updatePlayerCards.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.guessLow = this.guessLow.bind(this);
+    this.guessHigh = this.guessHigh.bind(this);
+    this.pass = this.pass.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
@@ -61,17 +65,72 @@ class App extends Component {
   }
 
   startGame() {
-    getCard().then(cardData => {
+    this._drawCard().then(_card => {
       gameState.start();
+      this.setState({ gameState });
+    });
+  }
+
+  _drawCard() {
+    return getCard().then(cardData => {
+      const card = this.state.deckCards.slice(-1)[0];
+      this._prevCard = this.state.playerCards.slice(-1)[0];
+      card.cardData = cardData;
+
       this.setState(state => {
-        const card = state.deckCards.slice(-1)[0];
-        card.cardData = cardData;
         const deckCards = state.deckCards.slice(0, -1);
         const playerCards = state.playerCards.concat(card);
 
-        return { deckCards, playerCards, gameState: gameState.stateString };
-      })
+        return { deckCards, playerCards };
+      });
+
+      return card;
     });
+  }
+
+  guessLow() {
+    this._guessCard((card, prevCard) => card.cardValue < prevCard.cardValue);
+  }
+
+  guessHigh() {
+    this._guessCard((card, prevCard) => card.cardValue > prevCard.cardValue);
+  }
+
+  _guessCard(test) {
+    this._drawCard().then(card => {
+      if(test(card, this._prevCard)) {
+        gameState.guessRight();
+        this.setState({ gameState });
+      } else {
+        gameState.guessWrong();
+        this._addPoints(this.state.playerCards.length);
+
+        this.setState(state => {
+          return {
+            playerCards: [],
+            discardCards: state.discardCards.concat(state.playerCards),
+            gameState: gameState,
+          };
+        }, this._drawCard);
+      }
+    });
+  }
+
+  _addPoints(points) {
+    this.setState(state => {
+      const newPlayers = gameState.players.map((active, i) => {
+        return active ?
+          { points: state.players[i].points + points } :
+          state.players[i];
+      });
+
+      return { players: newPlayers };
+    });
+  }
+
+  pass() {
+    gameState.pass();
+    this.setState({ gameState });
   }
 
   resetGame() {
@@ -117,7 +176,7 @@ class App extends Component {
                 <h2
                   key={i}
                   className={active && 'active'}>
-                  Player {i + 1} - 3pts
+                  Player {i + 1} - {this.state.players[i].points}pts
                 </h2>
               ))
             }
@@ -128,7 +187,10 @@ class App extends Component {
               gameState.players.map((active, i) => (
                 <Player
                   key={i}
-                  active={active}>
+                  active={active}
+                  guessHigh={this.guessHigh}
+                  guessLow={this.guessLow}
+                  pass={this.pass}>
                   <CardPile
                     className="App-playerpile"
                     cards={this.state.playerCards}

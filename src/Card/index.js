@@ -14,7 +14,7 @@ export class CardData {
 
   set cardData(data) {
     const numberValue = parseInt(data.value, 10);
-    this._cardValue = isNaN(numberValue) ? this._convertValue(data.value) : numberValue;
+    this.cardValue = isNaN(numberValue) ? this._convertValue(data.value) : numberValue;
     this._cardData = data
   }
   get cardData() {
@@ -27,7 +27,7 @@ export class CardData {
       "JACK": 11,
       "QUEEN": 12,
       "KING": 13
-    }[val.toUpperCase];
+    }[val.toUpperCase()];
   }
 }
 

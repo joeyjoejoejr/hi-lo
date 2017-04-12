@@ -50,7 +50,8 @@ class StartedState extends State {
   }
 
   pass() {
-    this.players = players = players.map(value => !value);
+    players = players.map(value => !value);
+    gameState = new StartedState();
   }
 }
 

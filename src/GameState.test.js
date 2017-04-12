@@ -90,9 +90,10 @@ describe("GameState", () => {
 
       expect(gameState.players[0]).toBe(false);
       expect(gameState.players[1]).toBe(true);
+      expect(gameState.correctGuesses).toBe(0);
     });
 
-    it("does switch when the player guesses wrong", () => {
+    it("does not switch when the player guesses wrong", () => {
       gameState.start();
       gameState.correctGuesses = 3;
       gameState.pass();
