@@ -10,9 +10,11 @@ export const arrangeDeck = (cards, clientRect) => cards.map((card, i) => {
 });
 
 export const arrangeDiscard = (cards, clientRect) => cards.map((card, i) => {
-  card.offsetX = clientRect.left + (Math.random() * 20) - 10;
-  card.offsetY = clientRect.top + (Math.random() * 20) - 10;
-  card.rotateZ = (Math.random() * 90) - 45;
+  if(!card.rotateZ) {
+    card.offsetX = clientRect.left + (Math.random() * 20) - 10;
+    card.offsetY = clientRect.top + (Math.random() * 20) - 10;
+    card.rotateZ = (Math.random() * 90) - 45;
+  }
   card.zIndex = i
   return card;
 });
