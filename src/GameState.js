@@ -50,7 +50,7 @@ class StartedState extends State {
   }
 
   pass() {
-    players = players.map(value => !value);
+    players.forEach(player => player.active = !player.active);
     gameState = new StartedState();
   }
 }
@@ -60,7 +60,10 @@ class InitialState extends State {
     super();
 
     this.stateString = 'initial';
-    this.players = players = [true, false];
+    this.players = players = [
+      { active: true, points: 0 },
+      { active: false, points: 0 }
+    ];
   }
 
   start() {

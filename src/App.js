@@ -20,7 +20,6 @@ class App extends Component {
       discardCards: [],
       playerCards: [],
       gameState: gameState,
-      players: gameState.players.map(() => ({ points: 0 })),
     }
     this._clearState = this.state;
 
@@ -117,15 +116,12 @@ class App extends Component {
   }
 
   _addPoints(points) {
-    this.setState(state => {
-      const newPlayers = gameState.players.map((active, i) => {
-        return active ?
-          { points: state.players[i].points + points } :
-          state.players[i];
-      });
-
-      return { players: newPlayers };
+    gameState.players.forEach(player => {
+      if(player.active) {
+        player.points += points;
+      }
     });
+    this.setState({ gameState });
   }
 
   pass() {
@@ -172,11 +168,11 @@ class App extends Component {
         <div className="App-player">
           <div className="App-playerbar">
             {
-              gameState.players.map((active, i) => (
+              gameState.players.map((player, i) => (
                 <h2
                   key={i}
-                  className={active && 'active'}>
-                  Player {i + 1} - {this.state.players[i].points}pts
+                  className={player.active ? 'active' : ''}>
+                  Player {i + 1} - {player.points}pts
                 </h2>
               ))
             }
@@ -184,10 +180,10 @@ class App extends Component {
 
           <div className="App-playercontrols">
             {
-              gameState.players.map((active, i) => (
+              gameState.players.map((player, i) => (
                 <Player
                   key={i}
-                  active={active}
+                  active={player.active}
                   guessHigh={this.guessHigh}
                   guessLow={this.guessLow}
                   pass={this.pass}>

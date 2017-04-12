@@ -79,8 +79,8 @@ describe("GameState", () => {
   describe("keeping track of players", () => {
     it("initializes with players with one active", () => {
       expect(gameState.players.length).toBe(2);
-      expect(gameState.players[0]).toBe(true);
-      expect(gameState.players[1]).toBe(false);
+      expect(gameState.players[0].active).toBe(true);
+      expect(gameState.players[1].active).toBe(false);
     });
 
     it("switches the active player when one passes", () => {
@@ -88,8 +88,8 @@ describe("GameState", () => {
       gameState.correctGuesses = 3;
       gameState.pass();
 
-      expect(gameState.players[0]).toBe(false);
-      expect(gameState.players[1]).toBe(true);
+      expect(gameState.players[0].active).toBe(false);
+      expect(gameState.players[1].active).toBe(true);
       expect(gameState.correctGuesses).toBe(0);
     });
 
@@ -99,8 +99,8 @@ describe("GameState", () => {
       gameState.pass();
 
       gameState.guessWrong();
-      expect(gameState.players[0]).toBe(false);
-      expect(gameState.players[1]).toBe(true);
+      expect(gameState.players[0].active).toBe(false);
+      expect(gameState.players[1].active).toBe(true);
     });
 
     it("does switch back when the game is reset", () => {
@@ -109,8 +109,8 @@ describe("GameState", () => {
       gameState.pass();
 
       gameState.reset();
-      expect(gameState.players[0]).toBe(true);
-      expect(gameState.players[1]).toBe(false);
+      expect(gameState.players[0].active).toBe(true);
+      expect(gameState.players[1].active).toBe(false);
     });
   })
 });
