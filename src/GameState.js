@@ -46,6 +46,13 @@ class StartedState extends State {
   }
 
   complete() {
+    const winner = players.reduce((acc, val) => {
+      return acc.points < val.points ? acc : val;
+    });
+
+    if(!players.every(player => player.points === winner.points)) {
+      winner.winner = true;
+    }
     gameState = new CompletedState();
   }
 
@@ -76,6 +83,11 @@ class CompletedState extends State {
     super();
 
     this.stateString = 'completed';
+    this.started = true;
+  }
+
+  get canGuess() {
+    return false;
   }
 }
 

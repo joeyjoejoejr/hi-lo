@@ -15,4 +15,3 @@ export let createDeck = () => fetch(`${apiUrl}/new/shuffle/`)
 
 export let getCard = () => fetch(`${apiUrl}/${deckId}/draw/?count=1`)
   .then(handleResponse)
-  .then(json => json['cards'][0])

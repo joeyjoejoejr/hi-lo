@@ -70,7 +70,7 @@ describe("GameState", () => {
 
     it("has the correct variables", () => {
       expect(gameState.stateString).toBe("completed");
-      expect(gameState.started).toBe(false);
+      expect(gameState.started).toBe(true);
       expect(gameState.canGuess).toBe(false);
       expect(gameState.canPass).toBe(false);
     });
@@ -111,6 +111,26 @@ describe("GameState", () => {
       gameState.reset();
       expect(gameState.players[0].active).toBe(true);
       expect(gameState.players[1].active).toBe(false);
+    });
+
+    it("decides who won", () => {
+      gameState.start()
+      gameState.players[0].points = 1;
+      gameState.players[1].points = 0;
+
+      gameState.complete();
+      expect(gameState.players[1].winner).toBe(true);
+      expect(gameState.players[0].winner).toBeFalsy();
+    });
+
+    it('has no winner if it\'s a tie', ()=> {
+      gameState.start()
+      gameState.players[0].points = 1;
+      gameState.players[1].points = 1;
+
+      gameState.complete();
+      expect(gameState.players[1].winner).toBeFalsy();
+      expect(gameState.players[0].winner).toBeFalsy();
     });
   })
 });

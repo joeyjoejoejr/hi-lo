@@ -13,10 +13,15 @@ describe("App", () => {
   let rendered;
   beforeEach(() => {
     const cardData =  {
-      "image": "https://deckofcardsapi.com/static/img/KH.png",
-      "value": "KING",
-      "suit": "HEARTS",
-      "code": "KH"
+      cards: [
+        {
+          "image": "https://deckofcardsapi.com/static/img/KH.png",
+          "value": "KING",
+          "suit": "HEARTS",
+          "code": "KH"
+        }
+      ],
+      remaining: 1
     };
 
     api.createDeck = jest.fn();

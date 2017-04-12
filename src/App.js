@@ -23,44 +23,11 @@ class App extends Component {
     }
     this._clearState = this.state;
 
-    this.updateDeckCards = this.updateDeckCards.bind(this);
-    this.updateDiscardCards = this.updateDiscardCards.bind(this);
-    this.updatePlayerCards = this.updatePlayerCards.bind(this);
     this.startGame = this.startGame.bind(this);
     this.guessLow = this.guessLow.bind(this);
     this.guessHigh = this.guessHigh.bind(this);
     this.pass = this.pass.bind(this);
     this.resetGame = this.resetGame.bind(this);
-  }
-
-  updatePlayerCards(cards) {
-    this.updateCards(cards, 'playerCards');
-  }
-
-  updateDeckCards(cards) {
-    this.updateCards(cards, 'deckCards');
-  }
-
-  updateDiscardCards(cards) {
-    this.updateCards(cards, 'discardCards');
-  }
-
-  updateCards(cards, key) {
-    let cardIndexes = []
-    cards.forEach((card, i) => (cardIndexes[card.id] = i));
-
-    this.setState((state) => {
-      const newCards = state.allCards.map((card) => {
-        const cardIndex = cardIndexes[card.id];
-
-        return cardIndex ? cards[cardIndex] : card;
-      });
-
-      return {
-        allCards: newCards,
-        [key]: cards
-      };
-    });
   }
 
   startGame() {
@@ -71,7 +38,10 @@ class App extends Component {
   }
 
   _drawCard() {
-    return getCard().then(cardData => {
+    return getCard().then(deckData => {
+      if(!deckData.remaining) { gameState.complete(); }
+      const cardData = deckData["cards"][0];
+
       const card = this.state.deckCards.slice(-1)[0];
       this._prevCard = this.state.playerCards.slice(-1)[0];
       card.cardData = cardData;
@@ -80,7 +50,7 @@ class App extends Component {
         const deckCards = state.deckCards.slice(0, -1);
         const playerCards = state.playerCards.concat(card);
 
-        return { deckCards, playerCards };
+        return { deckCards, playerCards, gameState };
       });
 
       return card;
@@ -156,12 +126,12 @@ class App extends Component {
           <CardPile
             className="App-deck"
             cards={this.state.deckCards}
-            updateCards={cards => this.updateCards(cards, 'deckCards') }
+            updateCards={cards => this.setState({ deckCards: cards }) }
             arrangeCards={arrangeDeck} />
           <CardPile
             className="App-discard"
             cards={this.state.discardCards}
-            updateCards={cards => this.updateCards(cards, 'discardCards') }
+            updateCards={cards => this.setState({ discardCards: cards }) }
             arrangeCards={arrangeDiscard} />
         </div>
 
@@ -172,7 +142,7 @@ class App extends Component {
                 <h2
                   key={i}
                   className={player.active ? 'active' : ''}>
-                  Player {i + 1} - {player.points}pts
+                  Player {i + 1} - { player.winner ? "winner!" : player.points + "pts" }
                 </h2>
               ))
             }
@@ -190,7 +160,7 @@ class App extends Component {
                   <CardPile
                     className="App-playerpile"
                     cards={this.state.playerCards}
-                    updateCards={cards => this.updateCards(cards, 'playerCards') }
+                    updateCards={cards => this.setState({ playerCards: cards }) }
                     arrangeCards={arrangePlayer} />
                 </Player>
               ))
