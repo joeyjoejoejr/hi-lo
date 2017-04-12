@@ -1,8 +1,8 @@
 import React from 'react';
 
 export const arrangeDeck = (cards, clientRect) => cards.map((card, i) => {
-  card.offsetX = clientRect.left - (i * 0.25);
-  card.offsetY = clientRect.top - (i * 0.25);
+  card.offsetX = clientRect.left - (i * 0.35);
+  card.offsetY = clientRect.top - (i * 0.35);
   card.rotateZ = 0;
   card.rotateX = 0;
   card.zIndex = i;
@@ -29,7 +29,7 @@ export const arrangePlayer = (cards, clientRect) => {
 
   // Fan the last 4 cards
   stackedCards.slice(-4).forEach((card, i) => {
-    card.offsetX = clientRect.left + (i * 10);
+    card.offsetX = clientRect.left + (i * 15);
     card.offsetY = clientRect.top;
     return card;
   });

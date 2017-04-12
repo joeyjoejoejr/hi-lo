@@ -24,14 +24,14 @@
 
 .App-deck {
   position: relative;
-  left: -34px;
-  margin-bottom: 97px;
+  left: -51px;
+  margin-bottom: 135px;
 }
 
 .App-deck p {
   position: absolute;
   left: 50%;
-  bottom: -135px;
+  bottom: -185px;
 }
 
 .App-discard {
@@ -44,14 +44,14 @@
 
 .App-playerpile {
   position: relative;
-  top: -50px;
+  top: 12px;
   left: 5px;
 }
 
 .App-playerpile p {
   position: absolute;
   left: 5%;
-  bottom: -135px;
+  bottom: 15px;
 }
 
 .App-player {

@@ -7,7 +7,8 @@
 }
 
 .Player div:first-child {
-  align-items: center;
+  padding-top: 2em;
+  align-items: top;
   display: flex;
   flex: 1;
   justify-content: center;
@@ -15,8 +16,8 @@
 
 .Player-cards {
   border: 10px solid rgba(240, 186, 0, 0.5);
-  height: 150px;
-  width: 105px;
+  height: 200px;
+  width: 153px;
 }
 
 .Player-controls {
