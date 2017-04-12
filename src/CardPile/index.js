@@ -17,14 +17,25 @@ export const arrangeDiscard = (cards, clientRect) => cards.map((card, i) => {
   return card;
 });
 
-export const arrangePlayer = (cards, clientRect) => cards.map((card, i) => {
-  card.offsetX = clientRect.left + (i * 10);
-  card.offsetY = clientRect.top;
-  card.rotateZ = 0;
-  card.rotateX = 180;
-  card.zIndex = i
-  return card;
-});
+export const arrangePlayer = (cards, clientRect) => {
+  const stackedCards = cards.map((card, i) => {
+    card.offsetX = clientRect.left;
+    card.offsetY = clientRect.top;
+    card.rotateZ = 0;
+    card.rotateX = 180;
+    card.zIndex = i
+    return card;
+  });
+
+  // Fan the last 4 cards
+  stackedCards.slice(-4).forEach((card, i) => {
+    card.offsetX = clientRect.left + (i * 10);
+    card.offsetY = clientRect.top;
+    return card;
+  });
+
+  return stackedCards;
+};
 
 
 export default class CardPile extends React.Component {
@@ -45,7 +56,9 @@ export default class CardPile extends React.Component {
   render() {
     return(
       <div className={this.props.className}
-        ref={pileElement => { this.pileElement = pileElement }}></div>
+        ref={pileElement => { this.pileElement = pileElement }}>
+        <p>{this.props.cards.length}</p>
+      </div>
     );
   }
 };

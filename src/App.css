@@ -28,16 +28,30 @@
   margin-bottom: 97px;
 }
 
+.App-deck p {
+  position: absolute;
+  left: 50%;
+  bottom: -135px;
+}
+
 .App-discard {
   position: absolute;
   right: 25%;
   top: 0;
 }
 
+.App-discard p { display: none }
+
 .App-playerpile {
   position: relative;
-  top: -40px;
+  top: -50px;
   left: 5px;
+}
+
+.App-playerpile p {
+  position: absolute;
+  left: 5%;
+  bottom: -135px;
 }
 
 .App-player {

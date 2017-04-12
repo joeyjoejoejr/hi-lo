@@ -11,7 +11,7 @@ export default ({ active, guessHigh, guessLow, pass, children }) => (
       </div>
     </div>
 
-    <div className={"Player-controls " + (!active && "disabled")}>
+    <div className={"Player-controls " + (!active? "disabled" : "")}>
       <p>Guess the next card!</p>
       <button
         onClick={guessHigh}
