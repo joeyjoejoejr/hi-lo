@@ -1,12 +1,36 @@
 .Card {
-  background-image: url('./card-back.png');
-  background-position: 50%;
-  background-size: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   height: 97px;
   left: 0;
   position: absolute;
   top: 0;
   width: 68px;
+  transform-style: preserve-3d;
   transition: transform 2s, z-index 0.5s linear 1s;
+}
+
+.Card-back, .Card-front {
+  display: block;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.Card-front img {
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.Card-front {
+  transform: rotateX(180deg);
+}
+
+.Card-back {
+  background-color: white;
+  background-image: url('./card-back.png');
+  background-position: 50%;
+  background-size: 100%;
 }

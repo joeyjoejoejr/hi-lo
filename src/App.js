@@ -3,12 +3,15 @@ import CardPile, { arrangeDeck, arrangeDiscard, arrangePlayer } from './CardPile
 import Player from './Player';
 import gameState from './GameState';
 import Card, { CardData } from './Card';
+import { createDeck, getCard } from './utils/api'
 
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
+
+    createDeck();
 
     const cards = Array.from({ length: 52 }, (_, i) => new CardData(i));
     this.state = {
@@ -18,11 +21,13 @@ class App extends Component {
       playerCards: [],
       gameState: gameState.stateString,
     }
+    this._clearState = this.state;
 
     this.updateDeckCards = this.updateDeckCards.bind(this);
     this.updateDiscardCards = this.updateDiscardCards.bind(this);
     this.updatePlayerCards = this.updatePlayerCards.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   updatePlayerCards(cards) {
@@ -56,14 +61,23 @@ class App extends Component {
   }
 
   startGame() {
-    gameState.start()
-    this.setState(state => {
-      const card = state.deckCards.slice(-1)[0];
-      const deckCards = state.deckCards.slice(0, -1);
-      const playerCards = state.playerCards.concat(card);
+    getCard().then(cardData => {
+      gameState.start();
+      this.setState(state => {
+        const card = state.deckCards.slice(-1)[0];
+        card.cardData = cardData;
+        const deckCards = state.deckCards.slice(0, -1);
+        const playerCards = state.playerCards.concat(card);
 
-      return { deckCards, playerCards, gameState: gameState.stateString };
-    })
+        return { deckCards, playerCards, gameState: gameState.stateString };
+      })
+    });
+  }
+
+  resetGame() {
+    gameState.reset();
+    createDeck();
+    this.setState(this._clearState);
   }
 
   render() {
@@ -74,10 +88,16 @@ class App extends Component {
         </div>
 
         <div className="App-dealer">
-          <button
-            className="App-start"
-            disabled={gameState.started}
-            onClick={this.startGame} >Start Game</button>
+          {
+            gameState.started ?
+              <button
+                className="App-start"
+                onClick={this.resetGame} >Reset Game</button> :
+              <button
+                className="App-start"
+                disabled={gameState.started}
+                onClick={this.startGame} >Start Game</button>
+          }
           <CardPile
             className="App-deck"
             cards={this.state.deckCards}
@@ -92,25 +112,31 @@ class App extends Component {
 
         <div className="App-player">
           <div className="App-playerbar">
-            <h2 className='active'>Player 1 - 3pts</h2>
-            <h2>Player 2 - 3pts</h2>
+            {
+              gameState.players.map((active, i) => (
+                <h2
+                  key={i}
+                  className={active && 'active'}>
+                  Player {i + 1} - 3pts
+                </h2>
+              ))
+            }
           </div>
-          <div className="App-playercontrols">
-            <Player active={true}>
-              <CardPile
-                className="App-playerpile"
-                cards={this.state.playerCards}
-                updateCards={cards => this.updateCards(cards, 'playerCards') }
-                arrangeCards={arrangePlayer} />
-            </Player>
 
-            <Player active={false}>
-              <CardPile
-                className="App-playerpile"
-                cards={this.state.playerCards}
-                updateCards={cards => this.updateCards(cards, 'playerCards') }
-                arrangeCards={arrangePlayer} />
-            </Player>
+          <div className="App-playercontrols">
+            {
+              gameState.players.map((active, i) => (
+                <Player
+                  key={i}
+                  active={active}>
+                  <CardPile
+                    className="App-playerpile"
+                    cards={this.state.playerCards}
+                    updateCards={cards => this.updateCards(cards, 'playerCards') }
+                    arrangeCards={arrangePlayer} />
+                </Player>
+              ))
+            }
           </div>
         </div>
 

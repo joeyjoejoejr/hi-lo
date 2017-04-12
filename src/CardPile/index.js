@@ -4,6 +4,7 @@ export const arrangeDeck = (cards, clientRect) => cards.map((card, i) => {
   card.offsetX = clientRect.left - (i * 0.25);
   card.offsetY = clientRect.top - (i * 0.25);
   card.rotateZ = 0;
+  card.rotateX = 0;
   card.zIndex = i;
   return card;
 });

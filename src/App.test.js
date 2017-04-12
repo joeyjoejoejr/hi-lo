@@ -6,11 +6,22 @@ import {
   renderIntoDocument,
 } from 'react-dom/test-utils';
 import App from './App';
+import * as api from './utils/api'
 
 describe("App", () => {
   let app;
   let rendered;
   beforeEach(() => {
+    const cardData =  {
+      "image": "https://deckofcardsapi.com/static/img/KH.png",
+      "value": "KING",
+      "suit": "HEARTS",
+      "code": "KH"
+    };
+
+    api.createDeck = jest.fn();
+    api.getCard = jest.fn();
+    api.getCard.mockReturnValue({ then: cb => cb(cardData) });
     app = renderIntoDocument(<App />);
   });
 
