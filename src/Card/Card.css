@@ -8,4 +8,5 @@
   position: absolute;
   top: 0;
   width: 68px;
+  transition: transform 2s, z-index 0.5s linear 1s;
 }

@@ -21,3 +21,25 @@ h2 {
   margin: 0;
   text-transform: uppercase;
 }
+
+button {
+  background-color: inherit;
+  border: 1px solid #011C47;
+  border-radius: 2px;
+  color: #011C47;
+  cursor: pointer;
+  font-family: 'Economica', sans-serif;
+  margin: 0.25em;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background-color: #ccc;
+}
+
+button:disabled {
+  background-color: #ddd;
+  border: 1px solid #777;
+  color: #777;
+  cursor: default;
+}

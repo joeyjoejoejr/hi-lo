@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import CardPile, { arrangeDeck, arrangeDiscard, arrangePlayer } from './CardPile';
 import Player from './Player';
+import { gameState } from './GameState';
 import Card, { CardData } from './Card';
 
 import './App.css';
 
 class App extends Component {
   constructor(props) {
-    const cards = Array.from({ length: 52 }, (_, i) => new CardData(i));
-
     super(props);
+
+    const cards = Array.from({ length: 52 }, (_, i) => new CardData(i));
     this.state = {
       allCards: cards,
-      deckCards: cards.slice(0, 46),
-      discardCards: cards.slice(48, 52),
-      playerCards: cards.slice(46, 48),
+      deckCards: cards,
+      discardCards: [],
+      playerCards: [],
     }
 
     this.updateDeckCards = this.updateDeckCards.bind(this);
     this.updateDiscardCards = this.updateDiscardCards.bind(this);
     this.updatePlayerCards = this.updatePlayerCards.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
   updatePlayerCards(cards) {
@@ -52,6 +54,16 @@ class App extends Component {
     });
   }
 
+  startGame() {
+    this.setState(state => {
+      const card = state.deckCards.slice(-1)[0];
+      const deckCards = state.deckCards.slice(0, -1);
+      const playerCards = state.playerCards.concat(card);
+
+      return { deckCards, playerCards };
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -60,6 +72,9 @@ class App extends Component {
         </div>
 
         <div className="App-dealer">
+          <button
+            className="App-start"
+            onClick={this.startGame} >Start Game</button>
           <CardPile
             className="App-deck"
             cards={this.state.deckCards}
