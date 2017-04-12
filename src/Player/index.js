@@ -1,4 +1,6 @@
 import React from 'react';
+import gameState from '../GameState';
+
 import './Player.css';
 
 export default ({ active, children }) => (
@@ -11,9 +13,9 @@ export default ({ active, children }) => (
 
     <div className={"Player-controls " + (!active && "disabled")}>
       <p>Guess the next card!</p>
-      <button>High</button>
-      <button>Low</button>
-      <button disabled>Pass</button>
+      <button disabled={!gameState.canGuess}>High</button>
+      <button disabled={!gameState.canGuess}>Low</button>
+      <button disabled={!gameState.canPass}>Pass</button>
     </div>
   </div>
 )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CardPile, { arrangeDeck, arrangeDiscard, arrangePlayer } from './CardPile';
 import Player from './Player';
-import { gameState } from './GameState';
+import gameState from './GameState';
 import Card, { CardData } from './Card';
 
 import './App.css';
@@ -16,6 +16,7 @@ class App extends Component {
       deckCards: cards,
       discardCards: [],
       playerCards: [],
+      gameState: gameState.stateString,
     }
 
     this.updateDeckCards = this.updateDeckCards.bind(this);
@@ -55,12 +56,13 @@ class App extends Component {
   }
 
   startGame() {
+    gameState.start()
     this.setState(state => {
       const card = state.deckCards.slice(-1)[0];
       const deckCards = state.deckCards.slice(0, -1);
       const playerCards = state.playerCards.concat(card);
 
-      return { deckCards, playerCards };
+      return { deckCards, playerCards, gameState: gameState.stateString };
     })
   }
 
@@ -74,6 +76,7 @@ class App extends Component {
         <div className="App-dealer">
           <button
             className="App-start"
+            disabled={gameState.started}
             onClick={this.startGame} >Start Game</button>
           <CardPile
             className="App-deck"
